@@ -5,11 +5,13 @@ from core.enums import Role
 from ..accounts.accounts_service import AccountService
 import secrets
 from datetime import datetime, timedelta, timezone
+from .email_service import EmailService
 
 class AuthService:
   def __init__(self):
     self.repo = AuthRepository()
     self.AccountService = AccountService()
+    self.EmailService = EmailService()
 
   def login(self, data: dict):
     user = self.repo.find_by_email(data["email"])
@@ -48,6 +50,12 @@ class AuthService:
     otp_expires_at = (datetime.now(timezone.utc) + timedelta(minutes=OTP_EXPIRY_MINUTES)).isoformat()
 
     self.repo.save_otp(user["_id"], otp, otp_expires_at)
+
+    self.EmailService.send_otp(
+       user["email"],
+       otp
+    )
+    
     return str(user["_id"])
   
   def verify_otp(self, data: dict):
