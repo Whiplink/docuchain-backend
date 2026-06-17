@@ -4,7 +4,6 @@ from email.message import EmailMessage
 
 
 class EmailService:
-
     def send_otp(self, email: str, otp: str):
         msg = EmailMessage()
         msg["Subject"] = "Your OTP Code"
@@ -12,13 +11,7 @@ class EmailService:
         msg["To"] = email
 
         msg.set_content(
-            f"""
-Your verification code is:
-
-{otp}
-
-This code expires in 5 minutes.
-"""
+            f"Your verification code is: {otp}\n\nExpires in 5 minutes."
         )
 
         with smtplib.SMTP(
