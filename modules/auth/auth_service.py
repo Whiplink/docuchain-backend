@@ -52,7 +52,7 @@ class AuthService:
             raise ValueError("User not allowed")
 
         # otp = f"{secrets.randbelow(1000000):06d}"
-        otp = 123123
+        otp = "123123"
 
         expires_at = (
             datetime.now(timezone.utc) +
