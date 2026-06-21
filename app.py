@@ -4,6 +4,7 @@ from flask_jwt_extended import JWTManager
 from werkzeug.exceptions import HTTPException
 from pydantic import ValidationError
 from datetime import timedelta
+from flask_cors import CORS
 
 
 from modules.requests.request_controller import requests_bp
@@ -15,6 +16,9 @@ from dotenv import load_dotenv
 load_dotenv()
 
 app = Flask(__name__)
+
+# CORS(app, origins=["http://localhost:3000"])
+CORS(app)
 
 app.config["JWT_SECRET_KEY"] = os.getenv("JWT_SECRET_KEY")
 app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(days=365)
